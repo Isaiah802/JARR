@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+    <h2 class="text-center mb-5">Our Inventory</h2>
+    <div class="row gy-4">
+        {% for item in items %}
+        <div class="col-md-6 col-lg-4"> <!-- This is where we define the grid layout -->
+            <div class="card w-100 h-100 shadow-sm">
+                <img src="/static/images/20onetrip.jpg" class="card-img-top" alt="Container Image">
+                <div class="card-body">
+                    <h5 class="card-title">Size: {{ item.size }} | Type: {{ item.type }}</h5>
+                    <p class="card-text">Price: <strong>{{ item.price }}</strong></p>
+                    <a href="/products/{{ item.id }}" class="btn btn-primary">View Pictures</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
+
+
