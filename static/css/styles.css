@@ -1,0 +1,260 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    padding-top: 80px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f1e7;
+    color: #000000;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+}
+/* Footer Styles */
+footer.custom-footer {
+    background-color: #7a4305 !important; /* Dark orange background */
+    color: #ffffff; /* White text */
+    padding: 20px 0;
+    width: 100%;
+}
+
+.footer-link {
+    color: #007bff; /* Blue links */
+    text-decoration: none; /* Remove underline */
+}
+
+.footer-link:hover {
+    color: #ff0000; /* Hover color */
+    text-decoration: underline; /* Add underline on hover */
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    color: black;
+    text-align: center;
+    padding: 120px 20px; /* Add top padding to prevent overlap with header */
+    background-image: url('/static/images/logo.png');
+    background-size: cover; /* Ensures the image covers the full section */
+    background-position: center center; /* Keeps the image centered */
+    background-repeat: no-repeat; /* Prevents image repetition */
+    min-height: 100vh; /* Full viewport height */
+    border: 15px solid #626406a5;
+    border-radius: 10px;
+}
+
+/* For tablets (Adjusts height and padding) */
+@media (max-width: 768px) {
+    .hero {
+        padding: 80px 20px; /* Adjust padding for tablets */
+        height: 80vh; /* Reduces the height for better viewing */
+        background-size: contain;
+        border: 3px solid #007bff;
+    }
+}
+
+/* For mobile screens (adjusting padding and height) */
+@media (max-width: 480px) {
+    .hero {
+        padding: 60px 20px; /* Adjust padding for mobile */
+        height: 70vh; /* Further reduce height on mobile screens */
+        background-size: contain;
+        border: 3px solid #007bff
+    }
+}
+
+.hero h1 {
+    font-size: 4em;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(254, 0, 0, 0.5);
+}
+
+.hero p {
+    font-size: 1.5em;
+    font-weight: 300;
+    margin-top: 20px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Navbar */
+#navbar {
+    z-index: 1000;
+    background-color: #7c5d0d; /* Blue background for header */
+}
+
+.nav-link {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: white;
+}
+
+.nav-link:hover {
+    color: #f8f1e7; /* Lighter text color on hover */
+}
+
+/* Section Styling */
+section {
+    padding: 60px 20px;
+}
+
+section h2 {
+    font-weight: 700;
+}
+
+/* Buttons */
+.btn-lg {
+    padding: 15px 30px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-outline-dark:hover {
+    background-color: #5f3f2a;
+    color: white;
+}
+
+
+/* Card Styling */
+
+
+/* Card Styling */
+/* Card Container Styling */
+.card-container {
+    display: flex;
+    justify-content: space-between; /* Adds space between cards */
+    gap: 20px; /* Creates space between each card */
+    flex-wrap: wrap; /* Ensures cards wrap into the next row if the screen is too small */
+    margin: 20px 0; /* Space around the container */
+}
+
+/* Card Styling */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 30%; /* Makes each card take up 30% of the container width */
+    box-sizing: border-box; /* Prevents overflow */
+}
+
+.card-text {
+    font-size: medium;
+}
+
+/* Card Container for Products Page */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+    width: 100%; /* Make the image fill the width of the card */
+    height: auto; /* Adjust height automatically */
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+}
+
+.card-body {
+    text-align: center;
+    background-color: #f8f1e7;
+    border-radius: 0 0 8px 8px;
+    padding: 15px;
+}
+}
+h1 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+/* For Mobile Screens */
+@media (max-width: 768px) {
+    .card {
+        width: 48%; /* 2 cards per row on tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: 100%; /* 1 card per row on small screens */
+    }
+}
+
+
+/* Map Section */
+#google-map {
+    background-color: #e1e1e1;
+}
+
+/* Dropdown Styles */
+.nav-item.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    background-color: #2700a5;
+    border-radius: 5px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-item {
+    color: white;
+    padding: 10px 20px;
+    text-align: left;
+}
+
+.dropdown-item:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+/* Add some spacing between dropdown items */
+.navbar-nav .dropdown-menu {
+    min-width: 200px;
+}
+
+.nav-link.dropdown-toggle {
+    color: rgb(95, 1, 236) !important;
+    font-weight: 600;
+}
+
+.navbar-nav .nav-item.dropdown:hover > .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    transition: all 0.5s ease;
+}
+
+/* Button hover effect */
+.btn-lg:hover {
+    background-color: #08173c;
+    color: white;
+}
+
+.nav-item.dropdown:hover > .dropdown-menu {
+    display: block;
+}
