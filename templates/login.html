@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - JARR Containers{% endblock %}
+
+{% block content %}
+    <h1>Admin Login</h1>
+    <p>Please enter your credentials to log in.</p>
+
+    <form method="post" action="{{ url_for('login') }}">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <button type="submit">Login</button>
+    </form>
+
+    {% if request.method == 'POST' %}
+        {% if not (username == 'admin' and check_password_hash(User.password, password)) %}
+            <p style="color: red;">Invalid credentials. Please try again.</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

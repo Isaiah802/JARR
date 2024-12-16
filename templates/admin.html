@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Panel - JARR Containers{% endblock %}
+
+{% block content %}
+    <h1>Admin Panel</h1>
+    <p>Welcome to the admin panel! Here you can view all contact submissions.</p>
+
+    <h2>Contact Submissions</h2>
+    
+    {% if contacts %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contact in contacts %}
+                    <tr>
+                        <td>{{ contact.name }}</td>
+                        <td>{{ contact.email }}</td>
+                        <td>{{ contact.message }}</td>
+                        <td>
+                            <!-- You can add edit or delete functionality here -->
+                            <a href="#">Delete</a> <!-- Placeholder link for deletion -->
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No contact submissions yet.</p>
+    {% endif %}
+
+    <a href="{{ url_for('logout') }}">Logout</a> <!-- Logout link -->
+{% endblock %}
