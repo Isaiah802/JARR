@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -14,9 +14,34 @@ CONTAINERS = [
 def home():
     return render_template('home.html')
 
-@app.route('/contact')
+
+
+
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    return render_template('contact.html')
+    message = None
+    if request.method == 'POST':
+        # Safely retrieve form data
+        name = request.form.get('name', 'Unknown')
+        email = request.form.get('email', 'Unknown')
+        message_content = request.form.get('message', '')
+
+        # Log form data (this could be sent to an email in production)
+        print(f"Name: {name}")
+        print(f"Email: {email}")
+        print(f"Message: {message_content}")
+
+        # Display a confirmation message on the page
+        message = "Your message has been sent! We'll get back to you soon."
+
+    return render_template('contact.html', message=message)
+
+
+
+
+@app.route('/learn')
+def learn():
+    return render_template('learn.html')
 
 @app.route('/products')
 def products():

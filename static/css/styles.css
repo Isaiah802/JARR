@@ -107,8 +107,8 @@ footer.custom-footer {
 
 .nav-link:hover {
     color: #f8f1e7; /* Lighter text color on hover */
-}
-
+} 
+    
 /* Section Styling */
 section {
     padding: 60px 20px;
@@ -241,9 +241,6 @@ h1 {
     font-weight: 600;
 }
 
-.navbar-nav .nav-item.dropdown:hover > .dropdown-menu {
-    display: block;
-}
 
 .dropdown-menu {
     transition: all 0.5s ease;
@@ -255,6 +252,3 @@ h1 {
     color: white;
 }
 
-.nav-item.dropdown:hover > .dropdown-menu {
-    display: block;
-}
