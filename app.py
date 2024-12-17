@@ -165,6 +165,17 @@ def delete_product(container_id):
     db.session.commit()
     return redirect(url_for('admin'))  # Redirect to admin panel after deletion
 
+# Route for deleting a contact message
+@app.route('/admin/contact/delete/<int:contact_id>', methods=['POST'])
+@login_required
+def delete_contact(contact_id):
+    contact = Contact.query.get_or_404(contact_id)
+    db.session.delete(contact)
+    db.session.commit()
+    return redirect(url_for('admin'))  # Redirect to admin page after deleting the contact message
+
+
+
 
 # Route for viewing contact submissions
 @app.route('/admin/contacts')
