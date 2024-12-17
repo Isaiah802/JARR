@@ -14,8 +14,7 @@ body {
     padding-top: 80px;
     font-family: 'Roboto', sans-serif;
     background-color: #f8f1e7;
-    color: #000000;
-    justify-content: space-between;
+    color: #000;
     display: flex;
     flex-direction: column;
 }
@@ -23,19 +22,19 @@ body {
 /* Footer Styles */
 footer.custom-footer {
     background-color: #7a4305 !important; /* Dark orange background */
-    color: #ffffff; /* White text */
+    color: #fff;
     padding: 20px 0;
     width: 100%;
 }
 
 .footer-link {
-    color: #007bff; /* Blue links */
-    text-decoration: none; /* Remove underline */
+    color: #007bff;
+    text-decoration: none;
 }
 
 .footer-link:hover {
-    color: #ff0000; /* Hover color */
-    text-decoration: underline; /* Add underline on hover */
+    color: #ff0000;
+    text-decoration: underline;
 }
 
 /* Hero Section */
@@ -43,34 +42,14 @@ footer.custom-footer {
     position: relative;
     color: black;
     text-align: center;
-    padding: 120px 20px; /* Add top padding to prevent overlap with header */
+    padding: 120px 20px;
     background-image: url('/static/images/logo.png');
-    background-size: cover; /* Ensures the image covers the full section */
-    background-position: center center; /* Keeps the image centered */
-    background-repeat: no-repeat; /* Prevents image repetition */
-    min-height: 100vh; /* Full viewport height */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
     border: 15px solid #626406a5;
     border-radius: 10px;
-}
-
-/* For tablets (Adjusts height and padding) */
-@media (max-width: 768px) {
-    .hero {
-        padding: 80px 20px; /* Adjust padding for tablets */
-        height: 80vh; /* Reduces the height for better viewing */
-        background-size: contain;
-        border: 3px solid #007bff;
-    }
-}
-
-/* For mobile screens (adjusting padding and height) */
-@media (max-width: 480px) {
-    .hero {
-        padding: 60px 20px; /* Adjust padding for mobile */
-        height: 70vh; /* Further reduce height on mobile screens */
-        background-size: contain;
-        border: 3px solid #007bff
-    }
 }
 
 .hero h1 {
@@ -94,22 +73,41 @@ footer.custom-footer {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+/* Responsive Hero Section */
+@media (max-width: 768px) {
+    .hero {
+        padding: 80px 20px;
+        height: 80vh;
+        background-size: contain;
+        border: 3px solid #007bff;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 60px 20px;
+        height: 70vh;
+        background-size: contain;
+        border: 3px solid #007bff;
+    }
+}
+
 /* Navbar */
 #navbar {
     z-index: 1000;
-    background-color: #7c5d0d; /* Blue background for header */
+    background-color: #7c5d0d;
 }
 
 .nav-link {
     text-transform: uppercase;
     font-weight: 600;
-    color: white;
+    color: #fff;
 }
 
 .nav-link:hover {
-    color: #f8f1e7; /* Lighter text color on hover */
-} 
-    
+    color: #f8f1e7;
+}
+
 /* Section Styling */
 section {
     padding: 60px 20px;
@@ -132,32 +130,21 @@ section h2 {
     color: white;
 }
 
-/* Card Styling */
+/* Card Styles */
 .card-container {
     display: flex;
-    justify-content: space-between; /* Adds space between cards */
-    gap: 20px; /* Creates space between each card */
-    flex-wrap: wrap; /* Ensures cards wrap into the next row if the screen is too small */
-    margin: 20px 0; /* Space around the container */
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 20px 0;
 }
 
 .card {
     border: 1px solid #ddd;
     border-radius: 8px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    width: 30%; /* Makes each card take up 30% of the container width */
-    box-sizing: border-box; /* Prevents overflow */
-}
-
-.card-text {
-    font-size: medium;
-}
-
-.card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
+    width: 30%;
+    box-sizing: border-box;
 }
 
 .card:hover {
@@ -166,8 +153,8 @@ section h2 {
 }
 
 .card-img-top {
-    width: 100%; /* Make the image fill the width of the card */
-    height: auto; /* Adjust height automatically */
+    width: 100%;
+    height: auto;
     object-fit: cover;
     border-radius: 8px 8px 0 0;
 }
@@ -179,22 +166,20 @@ section h2 {
     padding: 15px;
 }
 
-h1 {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 400;
+.card-text {
+    font-size: medium;
 }
 
-/* For Mobile Screens */
+/* Responsive Card Layout */
 @media (max-width: 768px) {
     .card {
-        width: 48%; /* 2 cards per row on tablets */
+        width: 48%;
     }
 }
 
 @media (max-width: 480px) {
     .card {
-        width: 100%; /* 1 card per row on small screens */
+        width: 100%;
     }
 }
 
@@ -209,22 +194,22 @@ h1 {
     color: white;
 }
 
-/* New CSS to center the contact container for the contact us page */
+/* Contact Section */
 .contact-container {
-    width: 80%; /* Adjust width as needed */
-    margin: 0 auto; /* Center the content horizontally */
-    padding: 20px; /* Add some padding around the content */
-    text-align: center; /* Center text in the container */
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
 }
 
 form {
-    text-align: left; /* Align form elements to the left */
+    text-align: left;
     margin-top: 20px;
 }
 
 form input,
 form textarea {
-    width: 100%; /* Makes the input fields and text area full width */
+    width: 100%;
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ccc;
@@ -242,4 +227,65 @@ form button {
 
 form button:hover {
     background-color: #0056b3;
+}
+
+/* Image Carousel */
+.carousel-inner img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #007bff;
+}
+
+/* Text Info Section */
+.col-md-6.d-flex.justify-content-center.align-items-center {
+    flex: 1;
+    text-align: left;
+    padding: 20px;
+}
+
+/* Images Section */
+.col-md-6.d-flex.justify-content-center {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .row.mb-4 {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .col-md-6.d-flex.justify-content-center.align-items-center,
+    .col-md-6.d-flex.justify-content-center {
+        width: 100%;
+    }
+}
+
+/* Headings Styles */
+h1 {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+}
+
+h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #444;
+}
+
+.lead {
+    font-size: 1.2rem;
+    font-weight: 300;
 }

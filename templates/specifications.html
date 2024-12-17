@@ -1,30 +1,52 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Container Specifications{% endblock %}
+{% block title %}Container Specifications - JARR Containers{% endblock %}
 
 {% block content %}
-<section class="container py-5">
-    <h2 class="text-center mb-4">Container Specifications</h2>
-    <div class="card mx-auto shadow-sm" style="max-width: 800px;">
-        <!-- Container Image -->
-        <img src="{{ container.image }}" class="card-img-top" alt="Container Image">
-        <div class="card-body">
-            <!-- Container Details -->
-            <h5 class="card-title">Size: {{ container.size }} | Type: {{ container.type }}</h5>
-            <p><strong>Price:</strong> {{ container.price }}</p>
-            <p><strong>Details:</strong> {{ container.details }}</p>
+<div class="container py-5">
+    <h2 class="text-center mb-5">Container Specifications</h2>
 
-            <!-- Add more details as needed -->
-            <ul class="list-group list-group-flush">
-                {% if container.features %}
-                    {% for feature in container.features %}
-                    <li class="list-group-item">{{ feature }}</li>
+    <!-- Product Details -->
+    <div class="row mb-4">
+        <!-- Text Info Section -->
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+            <div>
+                <h4 class="font-weight-bold">Price: <strong>{{ container.price }}</strong></h4>
+                <h4 class="font-weight-bold">Size: <strong>{{ container.size }}</strong></h4>
+                <h4 class="font-weight-bold">Type: <strong>{{ container.type }}</strong></h4>
+                <p class="lead"><strong>Details:</strong> {{ container.details }}</p>
+                <p><strong>Condition:</strong> {{ container.condition }}</p>
+                <!-- Add any other fields like shipping info or special features here -->
+            </div>
+        </div>
+
+        <!-- Images Section -->
+        <div class="col-md-6 d-flex justify-content-center">
+            <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for i in range(1, 6) %}
+                        {% if container['image' ~ i] %}
+                            <div class="carousel-item {% if i == 1 %}active{% endif %}">
+                                <img src="{{ url_for('static', filename='uploads/' + container['image' ~ i]) }}" class="d-block w-100" alt="Container Image {{ i }}">
+                            </div>
+                        {% endif %}
                     {% endfor %}
-                {% endif %}
-            </ul>
-
-            <a href="{{ url_for('products') }}" class="btn btn-secondary mt-3">Back to Inventory</a>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
         </div>
     </div>
-</section>
+
+    <!-- Back Button -->
+    <div class="text-center mt-4">
+        <a href="{{ url_for('products') }}" class="btn btn-primary btn-lg">Back to Products</a>
+    </div>
+</div>
 {% endblock %}
