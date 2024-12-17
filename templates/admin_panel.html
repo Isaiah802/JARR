@@ -42,7 +42,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>Image</th>
+                    <th>Images</th>
                     <th>Price</th>
                     <th>Size</th>
                     <th>Type</th>
@@ -53,7 +53,23 @@
             <tbody>
                 {% for container in containers %}
                     <tr>
-                        <td><img src="{{ container.image }}" alt="Product Image" style="width:100px;"></td>
+                        <td>
+                            {% if container.image1 %}
+                                <img src="{{ url_for('static', filename='uploads/' + container.image1) }}" alt="Image 1" style="width:100px; margin-right: 5px;">
+                            {% endif %}
+                            {% if container.image2 %}
+                                <img src="{{ url_for('static', filename='uploads/' + container.image2) }}" alt="Image 2" style="width:100px; margin-right: 5px;">
+                            {% endif %}
+                            {% if container.image3 %}
+                                <img src="{{ url_for('static', filename='uploads/' + container.image3) }}" alt="Image 3" style="width:100px; margin-right: 5px;">
+                            {% endif %}
+                            {% if container.image4 %}
+                                <img src="{{ url_for('static', filename='uploads/' + container.image4) }}" alt="Image 4" style="width:100px; margin-right: 5px;">
+                            {% endif %}
+                            {% if container.image5 %}
+                                <img src="{{ url_for('static', filename='uploads/' + container.image5) }}" alt="Image 5" style="width:100px; margin-right: 5px;">
+                            {% endif %}
+                        </td>
                         <td>{{ container.price }}</td>
                         <td>{{ container.size }}</td>
                         <td>{{ container.type }}</td>
