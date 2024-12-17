@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Product{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+    <h2 class="text-center mb-5">Add New Product</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="size" class="form-label">Size</label>
+            <input type="text" class="form-control" id="size" name="size" required>
+        </div>
+        <div class="mb-3">
+            <label for="type" class="form-label">Type</label>
+            <input type="text" class="form-control" id="type" name="type" required>
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="text" class="form-control" id="price" name="price" required>
+        </div>
+        <div class="mb-3">
+            <label for="details" class="form-label">Details</label>
+            <textarea class="form-control" id="details" name="details" rows="4" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Image URL</label>
+            <input type="text" class="form-control" id="image" name="image">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Product</button>
+    </form>
+</section>
+{% endblock %}

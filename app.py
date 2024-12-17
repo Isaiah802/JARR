@@ -16,7 +16,7 @@ login_manager.login_view = 'login'  # Redirect to login page if not logged in
 class User(UserMixin):
     id = 1
     username = 'admin'
-    password = generate_password_hash('password123')  # Hashed password for admin
+    password_hash = generate_password_hash('password123')  # Store the hashed password
 
 # Create a Contact model for storing contact form submissions
 class Contact(db.Model):
@@ -27,6 +27,18 @@ class Contact(db.Model):
 
     def __repr__(self):
         return f'<Contact {self.name}>'
+
+# Create a Container model for storing container products
+class Container(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String(200), nullable=False)  # Image URL or file path
+    price = db.Column(db.String(50), nullable=False)   # Price string (e.g., "$2,000")
+    size = db.Column(db.String(50), nullable=False)    # Size of the container (e.g., "20ft")
+    type = db.Column(db.String(50), nullable=False)    # Type (e.g., "Used" or "One-trip")
+    details = db.Column(db.Text, nullable=False)       # Product description
+
+    def __repr__(self):
+        return f'<Container {self.size} - {self.type}>'
 
 # User loader for Flask-Login
 @login_manager.user_loader
@@ -39,7 +51,7 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        if username == 'admin' and check_password_hash(User.password, password):
+        if username == 'admin' and check_password_hash(User.password_hash, password):
             user = User()
             login_user(user)
             return redirect(url_for('admin'))  # Redirect to admin page after login
@@ -90,30 +102,76 @@ def learn():
 # Route for the products page
 @app.route('/products')
 def products():
-    # Sample data for containers
-    CONTAINERS = [
-        {"id": 1, "image": "/static/images/container1.jpg", "price": "$2,000", "size": "20ft", "type": "Used", "details": "Great for storage."},
-        {"id": 2, "image": "/static/images/20onetrip.jpg", "price": "$2,500", "size": "40ft", "type": "One-trip", "details": "Like new, perfect for shipping."},
-        {"id": 3, "image": "/static/images/container3.jpg", "price": "$1,800", "size": "20ft", "type": "Used", "details": "Weather-resistant."},
-        {"id": 4, "image": "/static/images/container4.jpg", "price": "$3,000", "size": "40ft", "type": "One-trip", "details": "Ideal for large storage needs."},
-    ]
-    return render_template('products.html', items=CONTAINERS)
+    containers = Container.query.all()
+    return render_template('products.html', containers=containers)
 
 # Route for container specifications page
 @app.route('/products/<int:container_id>')
 def product_specifications(container_id):
-    # Find the container with the matching ID
-    container = next((item for item in CONTAINERS if item["id"] == container_id), None)
-    if not container:
-        return render_template('404.html', message="Container not found"), 404
+    container = Container.query.get_or_404(container_id)
     return render_template('specifications.html', container=container)
 
-# Route for admin page
+# Route for the admin dashboard
 @app.route('/admin')
 @login_required
 def admin():
     contacts = Contact.query.all()  # Retrieve all contact submissions
-    return render_template('admin.html', contacts=contacts)
+    containers = Container.query.all()  # Retrieve all container products
+    return render_template('admin_panel.html', contacts=contacts, containers=containers)
+
+# Route for adding a new product
+@app.route('/admin/products/add', methods=['GET', 'POST'])
+@login_required
+def add_product():
+    if request.method == 'POST':
+        # Create a new container product from form data
+        new_product = Container(
+            image=request.form['image'],
+            price=request.form['price'],
+            size=request.form['size'],
+            type=request.form['type'],
+            details=request.form['details']
+        )
+        db.session.add(new_product)
+        db.session.commit()
+        return redirect(url_for('admin'))  # Redirect to admin page after adding the product
+
+    return render_template('add_product.html')
+
+# Route for editing a product
+@app.route('/admin/products/edit/<int:container_id>', methods=['GET', 'POST'])
+@login_required
+def edit_product(container_id):
+    container = Container.query.get_or_404(container_id)
+
+    if request.method == 'POST':
+        container.image = request.form['image']
+        container.price = request.form['price']
+        container.size = request.form['size']
+        container.type = request.form['type']
+        container.details = request.form['details']
+        db.session.commit()
+        return redirect(url_for('admin'))  # Redirect to admin panel after editing
+
+    return render_template('edit_product.html', container=container)
+
+
+# Route for deleting a product
+@app.route('/admin/products/delete/<int:container_id>', methods=['POST'])
+@login_required
+def delete_product(container_id):
+    container = Container.query.get_or_404(container_id)
+    db.session.delete(container)
+    db.session.commit()
+    return redirect(url_for('admin'))  # Redirect to admin panel after deletion
+
+
+# Route for viewing contact submissions
+@app.route('/admin/contacts')
+@login_required
+def admin_contacts():
+    contacts = Contact.query.all()  # Retrieve all contact submissions
+    return render_template('admin_contacts.html', contacts=contacts)
 
 # 404 Page Not Found handler
 @app.errorhandler(404)

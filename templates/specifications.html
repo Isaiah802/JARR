@@ -1,18 +1,30 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% block title %}Container Specifications{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <h1 class="text-center">{{ container.size }} Container Specifications</h1>
-    <div class="row align-items-center py-4">
-        <div class="col-md-6">
-            <img src="/static/images/20onetrip.jpg" class="img-fluid rounded" alt="Container Image">
-        </div>
-        <div class="col-md-6">
-            <h2>Price: {{ container.price }} includes delivery fee</h2>
-            <p><strong>Type:</strong> {{ container.type }}</p>
+<section class="container py-5">
+    <h2 class="text-center mb-4">Container Specifications</h2>
+    <div class="card mx-auto shadow-sm" style="max-width: 800px;">
+        <!-- Container Image -->
+        <img src="{{ container.image }}" class="card-img-top" alt="Container Image">
+        <div class="card-body">
+            <!-- Container Details -->
+            <h5 class="card-title">Size: {{ container.size }} | Type: {{ container.type }}</h5>
+            <p><strong>Price:</strong> {{ container.price }}</p>
             <p><strong>Details:</strong> {{ container.details }}</p>
-            <a href="/products" class="btn btn-primary">Back to Inventory</a>
+
+            <!-- Add more details as needed -->
+            <ul class="list-group list-group-flush">
+                {% if container.features %}
+                    {% for feature in container.features %}
+                    <li class="list-group-item">{{ feature }}</li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+
+            <a href="{{ url_for('products') }}" class="btn btn-secondary mt-3">Back to Inventory</a>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}

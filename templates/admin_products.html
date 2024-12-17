@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin - Products{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+    <h2 class="text-center mb-5">Manage Products</h2>
+
+    <!-- Display all containers in inventory -->
+    <div class="row gy-4">
+        {% for product in products %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card w-100 h-100 shadow-sm">
+                <img src="{{ product.image }}" class="card-img-top" alt="Container Image">
+                <div class="card-body">
+                    <h5 class="card-title">Size: {{ product.size }} | Type: {{ product.type }}</h5>
+                    <p class="card-text">Price: <strong>{{ product.price }}</strong></p>
+                    <a href="{{ url_for('edit_product', product_id=product.id) }}" class="btn btn-warning">Edit</a>
+                    <a href="{{ url_for('delete_product', product_id=product.id) }}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Button to add new product -->
+    <div class="text-center mt-4">
+        <a href="{{ url_for('add_product') }}" class="btn btn-success">Add New Product</a>
+    </div>
+</section>
+{% endblock %}

@@ -6,20 +6,26 @@
 <section class="container py-5">
     <h2 class="text-center mb-5">Our Inventory</h2>
     <div class="row gy-4">
-        {% for item in items %}
-        <div class="col-md-6 col-lg-4"> <!-- This is where we define the grid layout -->
-            <div class="card w-100 h-100 shadow-sm">
-                <img src="/static/images/20onetrip.jpg" class="card-img-top" alt="Container Image">
-                <div class="card-body">
-                    <h5 class="card-title">Size: {{ item.size }} | Type: {{ item.type }}</h5>
-                    <p class="card-text">Price: <strong>{{ item.price }}</strong></p>
-                    <a href="/products/{{ item.id }}" class="btn btn-primary">View Pictures</a>
+        {% if containers %}
+            {% for container in containers %}
+            <div class="col-md-6 col-lg-4"> <!-- Define the grid layout -->
+                <div class="card w-100 h-100 shadow-sm">
+                    <!-- Container Image -->
+                    <img src="{{ container.image }}" class="card-img-top" alt="Container Image">
+                    <div class="card-body">
+                        <!-- Container Size and Type -->
+                        <h5 class="card-title">Size: {{ container.size }} | Type: {{ container.type }}</h5>
+                        <!-- Container Price -->
+                        <p class="card-text">Price: <strong>{{ container.price }}</strong></p>
+                        <!-- Link to Specifications -->
+                        <a href="{{ url_for('product_specifications', container_id=container.id) }}" class="btn btn-primary">View Specifications</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+        <p class="text-center">No containers are available at the moment. Please check back later!</p>
+        {% endif %}
     </div>
 </section>
 {% endblock %}
-
-
