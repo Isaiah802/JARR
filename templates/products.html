@@ -19,7 +19,7 @@
                         <!-- Container Size and Type -->
                         <h5 class="card-title">Size: {{ container.size }} | Type: {{ container.type }}</h5>
                         <!-- Container Price -->
-                        <p class="card-text">Price: <strong>${{ container.price }}</strong></p>
+                        <p class="card-text">Price: <strong>{{ container.price }}</strong></p>
                         <!-- Link to Specifications -->
                         <a href="{{ url_for('product_specifications', container_id=container.id) }}" class="btn btn-primary">View Specifications</a>
                     </div>
