@@ -8,12 +8,9 @@ from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key_here'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///contact.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///contact.db'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
-
-app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), 'static/uploads')
-
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -242,5 +239,4 @@ def page_not_found(e):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    port = int(os.environ.get("PORT", 5000))  # Default to 5000 if PORT is not set
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(debug=True)
