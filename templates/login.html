@@ -2,23 +2,29 @@
 
 {% block title %}Login - JARR Containers{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
+
 {% block content %}
+<div class="login-container">
     <h1>Admin Login</h1>
     <p>Please enter your credentials to log in.</p>
 
     <form method="post" action="{{ url_for('login') }}">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
 
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
 
         <button type="submit">Login</button>
     </form>
 
     {% if request.method == 'POST' %}
         {% if not (username == 'admin' and check_password_hash(User.password, password)) %}
-            <p style="color: red;">Invalid credentials. Please try again.</p>
+            <p class="error-message">Invalid credentials. Please try again.</p>
         {% endif %}
     {% endif %}
+</div>
 {% endblock %}
