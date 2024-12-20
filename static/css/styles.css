@@ -52,6 +52,25 @@ footer.custom-footer {
     border-radius: 10px;
 }
 
+/* Responsive Hero Section */
+@media (max-width: 768px) {
+    .hero {
+        padding: 80px 20px;
+        height: 60vh; /* Adjusted height for mobile */
+        background-size: contain;
+        border: 8px solid #007bff; /* Adjusted border size for mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 60px 20px;
+        height: 50vh; /* Further reduced height for smaller mobile */
+        background-size: contain;
+        border: 5px solid #007bff; /* Further reduced border size */
+    }
+}
+
 .hero h1 {
     font-size: 4em;
     font-weight: 700;
@@ -73,24 +92,6 @@ footer.custom-footer {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Responsive Hero Section */
-@media (max-width: 768px) {
-    .hero {
-        padding: 80px 20px;
-        height: 80vh;
-        background-size: contain;
-        border: 3px solid #007bff;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero {
-        padding: 60px 20px;
-        height: 70vh;
-        background-size: contain;
-        border: 3px solid #007bff;
-    }
-}
 
 /* Navbar */
 #navbar {
