@@ -50,24 +50,43 @@ footer.custom-footer {
     min-height: 100vh;
     border: 15px solid #0c2255a5;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Vertically center the content */
 }
 
 /* Responsive Hero Section */
 @media (max-width: 768px) {
     .hero {
-        padding: 80px 20px;
-        height: 60vh; /* Adjusted height for mobile */
-        background-size: contain;
-        border: 8px solid #007bff; /* Adjusted border size for mobile */
+        padding: 60px 20px; /* Reduced padding for better use of space */
+        height: auto; /* Let content determine the height */
+        background-size: cover; /* Ensure the background still covers properly */
+        border: 8px solid #007bff;
+    }
+
+    .hero h1 {
+        font-size: 2.5em;
+    }
+
+    .hero p {
+        font-size: 1.2em;
     }
 }
 
 @media (max-width: 480px) {
     .hero {
-        padding: 60px 20px;
-        height: 50vh; /* Further reduced height for smaller mobile */
-        background-size: contain;
-        border: 5px solid #007bff; /* Further reduced border size */
+        padding: 40px 20px; /* Further reduce padding for smaller screens */
+        height: auto; /* Let content determine the height */
+        background-size: cover;
+        border: 5px solid #007bff;
+    }
+
+    .hero h1 {
+        font-size: 2em;
+    }
+
+    .hero p {
+        font-size: 1em;
     }
 }
 
@@ -130,6 +149,7 @@ section h2 {
     background-color: #5f3f2a;
     color: white;
 }
+
 
 /* Card Styles */
 .card-container {

@@ -3,63 +3,76 @@
 {% block title %}Edit Product - JARR Containers{% endblock %}
 
 {% block content %}
-    <h1>Edit Product</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Edit Product</h1>
 
-    <form action="{{ url_for('edit_product', container_id=container.id) }}" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="image1">Image 1</label>
-            <input type="file" name="image1" class="form-control">
-            {% if container.image1 %}
-                <img src="{{ url_for('static', filename='uploads/' + container.image1) }}" alt="Image 1" style="width:100px;">
-            {% endif %}
+    <form action="{{ url_for('edit_product', container_id=container.id) }}" method="POST" enctype="multipart/form-data" class="shadow-lg p-4 rounded bg-light">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="image1" class="form-label">Image 1</label>
+                <input type="file" name="image1" class="form-control">
+                {% if container.image1 %}
+                    <img src="{{ url_for('static', filename='uploads/' + container.image1) }}" alt="Image 1" class="img-thumbnail mt-2" style="width:100px;">
+                {% endif %}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="image2" class="form-label">Image 2</label>
+                <input type="file" name="image2" class="form-control">
+                {% if container.image2 %}
+                    <img src="{{ url_for('static', filename='uploads/' + container.image2) }}" alt="Image 2" class="img-thumbnail mt-2" style="width:100px;">
+                {% endif %}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="image3" class="form-label">Image 3</label>
+                <input type="file" name="image3" class="form-control">
+                {% if container.image3 %}
+                    <img src="{{ url_for('static', filename='uploads/' + container.image3) }}" alt="Image 3" class="img-thumbnail mt-2" style="width:100px;">
+                {% endif %}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="image4" class="form-label">Image 4</label>
+                <input type="file" name="image4" class="form-control">
+                {% if container.image4 %}
+                    <img src="{{ url_for('static', filename='uploads/' + container.image4) }}" alt="Image 4" class="img-thumbnail mt-2" style="width:100px;">
+                {% endif %}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="image5" class="form-label">Image 5</label>
+                <input type="file" name="image5" class="form-control">
+                {% if container.image5 %}
+                    <img src="{{ url_for('static', filename='uploads/' + container.image5) }}" alt="Image 5" class="img-thumbnail mt-2" style="width:100px;">
+                {% endif %}
+            </div>
         </div>
-        <div class="form-group">
-            <label for="image2">Image 2</label>
-            <input type="file" name="image2" class="form-control">
-            {% if container.image2 %}
-                <img src="{{ url_for('static', filename='uploads/' + container.image2) }}" alt="Image 2" style="width:100px;">
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="image3">Image 3</label>
-            <input type="file" name="image3" class="form-control">
-            {% if container.image3 %}
-                <img src="{{ url_for('static', filename='uploads/' + container.image3) }}" alt="Image 3" style="width:100px;">
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="image4">Image 4</label>
-            <input type="file" name="image4" class="form-control">
-            {% if container.image4 %}
-                <img src="{{ url_for('static', filename='uploads/' + container.image4) }}" alt="Image 4" style="width:100px;">
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="image5">Image 5</label>
-            <input type="file" name="image5" class="form-control">
-            {% if container.image5 %}
-                <img src="{{ url_for('static', filename='uploads/' + container.image5) }}" alt="Image 5" style="width:100px;">
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="price">Price</label>
+
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
             <input type="text" name="price" class="form-control" value="{{ container.price }}" required>
         </div>
-        <div class="form-group">
-            <label for="size">Size</label>
+
+        <div class="mb-3">
+            <label for="size" class="form-label">Size</label>
             <input type="text" name="size" class="form-control" value="{{ container.size }}" required>
         </div>
-        <div class="form-group">
-            <label for="type">Type</label>
+
+        <div class="mb-3">
+            <label for="type" class="form-label">Type</label>
             <input type="text" name="type" class="form-control" value="{{ container.type }}" required>
         </div>
-        <div class="form-group">
-            <label for="details">Details</label>
-            <textarea name="details" class="form-control" required>{{ container.details }}</textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Update Product</button>
-    </form>
 
-    <br><br>
-    <a href="{{ url_for('admin') }}" class="btn btn-secondary">Back to Admin Panel</a>
+        <div class="mb-3">
+            <label for="details" class="form-label">Details</label>
+            <textarea name="details" class="form-control" rows="5" required>{{ container.details }}</textarea>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Update Product</button>
+            <a href="{{ url_for('admin') }}" class="btn btn-secondary">Back to Admin Panel</a>
+        </div>
+    </form>
+</div>
 {% endblock %}
