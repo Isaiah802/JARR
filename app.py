@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import os
 from flask_migrate import Migrate
+from PIL import Image
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key_here'
@@ -139,12 +140,14 @@ def admin():
     return render_template('admin_panel.html', contacts=contacts, containers=containers)
 
 
+# Route to add new product
 @app.route('/admin/products/add', methods=['GET', 'POST'])
 @login_required
 def add_product():
     if request.method == 'POST':
         images = []
 
+        # Loop through the image fields and handle file uploads
         for i in range(1, 6):
             image_field = f'image{i}'
             if image_field in request.files:
@@ -153,8 +156,16 @@ def add_product():
                     filename = secure_filename(file.filename)
                     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                     file.save(filepath)
-                    images.append(filename)
 
+                    # Convert and save as WebP
+                    webp_path = filepath.rsplit('.', 1)[0] + ".webp"
+                    save_as_webp(filepath, webp_path)  # Convert the image to WebP
+                    images.append(os.path.basename(webp_path))
+
+                    # Optionally remove the original uploaded file
+                    os.remove(filepath)
+
+        # Add the new product to the database
         new_product = Container(
             image1=images[0] if len(images) > 0 else None,
             image2=images[1] if len(images) > 1 else None,
@@ -168,10 +179,10 @@ def add_product():
         )
         db.session.add(new_product)
         db.session.commit()
+        flash("Product added successfully", "success")
         return redirect(url_for('admin'))
 
     return render_template('add_product.html')
-
 
 @app.route('/admin/products/edit/<int:container_id>', methods=['GET', 'POST'])
 @login_required
@@ -210,8 +221,25 @@ def edit_product(container_id):
 @login_required
 def delete_product(container_id):
     container = Container.query.get_or_404(container_id)
+
+    # List of image fields to check
+    image_fields = ['image1', 'image2', 'image3', 'image4', 'image5']
+    
+    # Loop through the image fields and delete the corresponding image files if they exist
+    for image_field in image_fields:
+        image_filename = getattr(container, image_field)
+        if image_filename:
+            image_path = os.path.join(app.config['UPLOAD_FOLDER'], image_filename)
+            
+            # Check if the image file exists before attempting to delete
+            if os.path.exists(image_path):
+                os.remove(image_path)
+
+    # Delete the container entry from the database
     db.session.delete(container)
     db.session.commit()
+
+    flash("Product and its images have been deleted.", "success")
     return redirect(url_for('admin'))
 
 
@@ -236,7 +264,61 @@ def page_not_found(e):
     return render_template('404.html', message="Page not found"), 404
 
 
+@app.route('/admin/users', methods=['GET'])
+@login_required
+def admin_users():
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+    users = User.query.all()
+    return render_template('admin_users.html', users=users)
+
+
+@app.route('/admin/users/delete/<int:user_id>', methods=['POST'])
+@login_required
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
+    if user.id == current_user.id:  # Prevent deleting the logged-in user
+        return redirect(url_for('admin_users'))  # Redirect without deletion
+
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('admin_users'))
+
+
+# Helper function to save as WebP
+def save_as_webp(file, save_path):
+    img = Image.open(file)
+    img = img.convert("RGB")  # WebP doesn't support transparency
+    img.save(save_path, "webp", quality=85)
+
+
+def resize_image(file, save_path, max_width):
+    img = Image.open(file)
+    width_percent = (max_width / float(img.size[0]))  # Calculate the width percent to scale the image.
+    height = int((float(img.size[1]) * width_percent))  # Calculate the height based on the width scaling.
+    img = img.resize((max_width, height), Image.ANTIALIAS)  # Resize the image while maintaining aspect ratio.
+    img.save(save_path, optimize=True, quality=85)  # Save the resized image with optimization.
+
+
+def handle_uploaded_image(file):
+    # Ensure the file is valid and secure.
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+
+        # Resize the image for different sizes
+        thumbnail_path = filepath.rsplit('.', 1)[0] + "_thumb.webp"
+        resize_image(filepath, thumbnail_path, 400)  # Resize for thumbnails
+
+        large_path = filepath.rsplit('.', 1)[0] + "_large.webp"
+        resize_image(filepath, large_path, 1200)  # Resize for full size
+
+        # Return the paths of the resized images for further use
+        return [os.path.basename(large_path), os.path.basename(thumbnail_path)]
+
+    return None
+
+
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)

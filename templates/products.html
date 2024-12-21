@@ -12,8 +12,8 @@
                 <div class="card w-100 h-100 shadow-sm">
                     <!-- Container Image -->
                     <img 
-                        src="{{ url_for('static', filename='uploads/' + container.image1) if container.image1 else url_for('static', filename='uploads/default.jpg') }}" 
-                        class="card-img-top" 
+                        data-src="{{ url_for('static', filename='uploads/' + container.image1) if container.image1 else url_for('static', filename='uploads/default.jpg') }}" 
+                        class="lazy card-img-top"
                         alt="Container Image">
                     <div class="card-body">
                         <!-- Container Size and Type -->

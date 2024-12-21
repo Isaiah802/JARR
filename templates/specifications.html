@@ -26,8 +26,14 @@
                 <div class="carousel-inner">
                     {% for i in range(1, 6) %}
                         {% if container['image' ~ i] %}
-                            <div class="carousel-item {% if i == 1 %}active{% endif %}">
-                                <img src="{{ url_for('static', filename='uploads/' + container['image' ~ i]) }}" class="d-block w-100" alt="Container Image {{ i }}">
+                            <div class="carousel-item {% if i == 1 %}active{% endif %}">                            
+
+                                 <!-- Lazy Loading Implementation -->
+                                 <img 
+                                    data-src="{{ url_for('static', filename='uploads/' + container['image' ~ i]) }}" 
+                                    class="lazy d-block w-100" 
+                                    alt="Container Image {{ i }}"
+                                    loading="lazy">
                             </div>
                         {% endif %}
                     {% endfor %}

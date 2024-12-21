@@ -621,3 +621,13 @@ section h2 {
 .custom-footer p {
     font-size: 1rem; /* Adjust footer text size */
 }
+
+
+img.lazy {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+img.lazy.loaded {
+    opacity: 1;
+}
