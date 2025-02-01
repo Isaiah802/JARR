@@ -5,7 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import os
 from flask_migrate import Migrate
-from PIL import Image
+from PIL import Image, ExifTags
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key_here'
@@ -52,13 +53,14 @@ class Container(db.Model):
     image3 = db.Column(db.String(200), nullable=True)
     image4 = db.Column(db.String(200), nullable=True)
     image5 = db.Column(db.String(200), nullable=True)
-    price = db.Column(db.String(50), nullable=False)
+    price = db.Column(db.Float, nullable=False)
     size = db.Column(db.String(50), nullable=False)
     type = db.Column(db.String(50), nullable=False)
     details = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
         return f'<Container {self.size} - {self.type}>'
+
 
 
 @login_manager.user_loader
@@ -139,6 +141,28 @@ def admin():
     containers = Container.query.all()
     return render_template('admin_panel.html', contacts=contacts, containers=containers)
 
+# Function to fix image orientation
+def fix_image_orientation(filepath):
+    try:
+        image = Image.open(filepath)
+        for orientation in ExifTags.TAGS.keys():
+            if ExifTags.TAGS[orientation] == 'Orientation':
+                break
+        exif = image._getexif()
+
+        if exif is not None:
+            orientation_value = exif.get(orientation, None)
+            if orientation_value == 3:
+                image = image.rotate(180, expand=True)
+            elif orientation_value == 6:
+                image = image.rotate(270, expand=True)
+            elif orientation_value == 8:
+                image = image.rotate(90, expand=True)
+
+        image.save(filepath)  # Save the corrected image
+    except Exception as e:
+        print(f"Error fixing image orientation: {e}")
+
 
 # Route to add new product
 @app.route('/admin/products/add', methods=['GET', 'POST'])
@@ -157,6 +181,9 @@ def add_product():
                     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                     file.save(filepath)
 
+                    # Fix orientation before converting to WebP
+                    fix_image_orientation(filepath)
+
                     # Convert and save as WebP
                     webp_path = filepath.rsplit('.', 1)[0] + ".webp"
                     save_as_webp(filepath, webp_path)  # Convert the image to WebP
@@ -172,7 +199,7 @@ def add_product():
             image3=images[2] if len(images) > 2 else None,
             image4=images[3] if len(images) > 3 else None,
             image5=images[4] if len(images) > 4 else None,
-            price=request.form['price'],
+            price=float(request.form['price']),
             size=request.form['size'],
             type=request.form['type'],
             details=request.form['details']
@@ -184,37 +211,85 @@ def add_product():
 
     return render_template('add_product.html')
 
+# Route to edit existing product
+# Route to edit existing product
+# Route to edit existing product
+# Route to edit existing product
+# Route to edit existing product
+# Route to edit existing product
 @app.route('/admin/products/edit/<int:container_id>', methods=['GET', 'POST'])
 @login_required
 def edit_product(container_id):
     container = Container.query.get_or_404(container_id)
 
     if request.method == 'POST':
-        images = []
-        for i in range(1, 6):
-            image_field = f'image{i}'
-            if image_field in request.files:
-                file = request.files[image_field]
-                if file and allowed_file(file.filename):
-                    filename = secure_filename(file.filename)
-                    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                    file.save(filepath)
-                    images.append(filename)
+        image_fields = ["image1", "image2", "image3", "image4", "image5"]
+        updated_images = []
 
-        container.image1 = images[0] if len(images) > 0 else container.image1
-        container.image2 = images[1] if len(images) > 1 else container.image2
-        container.image3 = images[2] if len(images) > 2 else container.image3
-        container.image4 = images[3] if len(images) > 3 else container.image4
-        container.image5 = images[4] if len(images) > 4 else container.image5
-        container.price = request.form['price']
+        # Loop through all the image fields
+        for i, field in enumerate(image_fields):
+            image_file = request.files.get(field)
+
+            if image_file and image_file.filename:  # If a new image is uploaded
+                if allowed_file(image_file.filename):
+                    # Save the new image
+                    filename = secure_filename(image_file.filename)
+                    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                    image_file.save(filepath)
+
+                    # Fix orientation before converting to WebP
+                    fix_image_orientation(filepath)
+
+                    # Convert and save as WebP
+                    webp_path = filepath.rsplit('.', 1)[0] + ".webp"
+                    save_as_webp(filepath, webp_path)
+
+                    # **Debugging**: Check if conversion was successful
+                    print(f"WebP image saved at {webp_path}")
+
+                    # Delete the old image (if exists)
+                    old_image = getattr(container, field)
+                    if old_image:
+                        old_image_path = os.path.join(app.config['UPLOAD_FOLDER'], old_image)
+                        if os.path.exists(old_image_path):
+                            os.remove(old_image_path)
+                            print(f"Old image {old_image} deleted.")  # Debugging
+
+                    # Assign the new image path to the container field
+                    updated_images.append(os.path.basename(webp_path))
+
+                    # Remove the original file after conversion to WebP
+                    os.remove(filepath)
+                else:
+                    flash(f"Invalid file type for {field}", "danger")
+            else:
+                # If no new file is uploaded, keep the current image
+                updated_images.append(getattr(container, field))
+
+        # Now update the product in the database
+        container.image1 = updated_images[0] if len(updated_images) > 0 else container.image1
+        container.image2 = updated_images[1] if len(updated_images) > 1 else container.image2
+        container.image3 = updated_images[2] if len(updated_images) > 2 else container.image3
+        container.image4 = updated_images[3] if len(updated_images) > 3 else container.image4
+        container.image5 = updated_images[4] if len(updated_images) > 4 else container.image5
+
+        # Error handling for price input
+        try:
+            container.price = float(request.form['price'])
+        except ValueError:
+            flash("Invalid price format. Please enter a valid number.", "danger")
+            return redirect(url_for('edit_product', container_id=container.id))
+
         container.size = request.form['size']
         container.type = request.form['type']
         container.details = request.form['details']
 
         db.session.commit()
+        flash("Product updated successfully", "success")
         return redirect(url_for('admin'))
 
     return render_template('edit_product.html', container=container)
+
 
 
 @app.route('/admin/products/delete/<int:container_id>', methods=['POST'])

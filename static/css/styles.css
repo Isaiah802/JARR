@@ -631,3 +631,12 @@ img.lazy {
 img.lazy.loaded {
     opacity: 1;
 }
+
+#flash-message {
+    opacity: 1;
+    transition: opacity 1s ease-out;
+}
+
+#flash-message.fade {
+    opacity: 0;
+}

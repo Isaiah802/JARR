@@ -11,11 +11,11 @@
         <!-- Text Info Section -->
         <div class="col-md-6 d-flex justify-content-center align-items-center">
             <div>
-                <h4 class="font-weight-bold">Price: <strong>{{ container.price }}</strong></h4>
+                <h4 class="font-weight-bold">Price: <strong>${{ '{:.2f}'.format(container.price) }}</strong></h4>
                 <h4 class="font-weight-bold">Size: <strong>{{ container.size }}</strong></h4>
                 <h4 class="font-weight-bold">Type: <strong>{{ container.type }}</strong></h4>
                 <p class="lead"><strong>Details:</strong> {{ container.details }}</p>
-                <p><strong>Condition:</strong> {{ container.condition }}</p>
+                <!--<p><strong>Condition:</strong> {{ container.condition }}</p> -->
                 <!-- Add any other fields like shipping info or special features here -->
             </div>
         </div>
