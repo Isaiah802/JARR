@@ -5,13 +5,15 @@
 {% block content %}
 <div class="container py-5">
     <h2 class="text-center mb-5">Container Specifications</h2>
+    <h5 class="text-center mb-4">Call for more information</h5>
+    <h5 class="text-center">(210) 749-4329</h5>
 
     <!-- Product Details -->
     <div class="row mb-4">
         <!-- Text Info Section -->
         <div class="col-md-6 d-flex justify-content-center align-items-center">
             <div>
-                <h4 class="font-weight-bold">Price: <strong>${{ '{:.2f}'.format(container.price) }}</strong></h4>
+                <h4 class="font-weight-bold">Price: <strong>${{ '{:,.2f}'.format(container.price) }}</strong></h4>
                 <h4 class="font-weight-bold">Size: <strong>{{ container.size }}</strong></h4>
                 <h4 class="font-weight-bold">Type: <strong>{{ container.type }}</strong></h4>
                 <p class="lead"><strong>Details:</strong> {{ container.details }}</p>
